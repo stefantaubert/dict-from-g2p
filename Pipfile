@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+dict-from-g2p = {editable = true, path = "."}
+autopep8 = "*"
+pylint = "*"
+pycodestyle = "*"
+isort = "*"
+pipenv-setup = "*"
+rope = "*"
+pytest = "*"
+cx-freeze = "*"
+
+[packages]
+word-to-pronunciation = {editable = true, path = "./../word-to-pronunciation"}
+pronunciation-dictionary = {editable = true, path = "./../pronunciation-dictionary"}
+g2p_en = {editable = true, path = "./../g2p"}
+ordered-set = "*"
+
+[requires]
+python_version = "3.8"
