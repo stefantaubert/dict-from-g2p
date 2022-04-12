@@ -12,7 +12,7 @@ T = TypeVar("T")
 
 DEFAULT_ENCODING = "UTF-8"
 DEFAULT_N_JOBS = cpu_count()
-DEFAULT_CHUNKSIZE = 1000
+DEFAULT_CHUNKSIZE = 10000
 DEFAULT_MAXTASKSPERCHILD = None
 
 
@@ -41,8 +41,7 @@ def add_serialization_group(parser: ArgumentParser) -> None:
   group.add_argument("-ps", "--parts-sep", type=parse_non_empty,
                      help="symbol to separate word/weight/pronunciation in a line", choices=["TAB", "SPACE", "DOUBLE-SPACE"], default="DOUBLE-SPACE")
   # can be removed but in case word number is also on one word like word(1) then it will be required again, therefore no removal
-  group.add_argument("-in", "--include-numbers", action="store_true",
-                     help="include word numbers")
+  #group.add_argument("-in", "--include-numbers", action="store_true", help="include word numbers")
   group.add_argument("-iw", "--include-weights", action="store_true",
                      help="include weights")
 
@@ -52,24 +51,6 @@ class ConvertToOrderedSetAction(argparse._StoreAction):
     if values is not None:
       values = OrderedSet(values)
     super().__call__(parser, namespace, values, option_string)
-
-
-
-def add_io_group(parser: ArgumentParser) -> None:
-  """ use this for modification of dictionary content """
-  group = parser.add_argument_group('I/O arguments used for serialization/deserialization')
-  add_encoding_argument(group, "--encoding",
-                        "encoding used for serialization/deserialization")
-  group.add_argument("-cc", "--consider-comments", action="store_true",
-                     help="consider line comments while deserialization")
-  group.add_argument("-cn", "--consider-numbers", action="store_true",
-                     help="consider word numbers used to separate different pronunciations while serialization/deserialization")
-  group.add_argument("-cp", "--consider-pronunciation-comments", action="store_true",
-                     help="consider comments in pronunciations while deserialization")
-  group.add_argument("-cw", "--consider-weights", action="store_true",
-                     help="consider weights while serialization/deserialization")
-  group.add_argument("-ps", "--parts-sep", type=parse_non_empty,
-                     help="symbol to separate word/weight/pronunciation in a line while serialization", choices=["TAB", "SPACE", "DOUBLE-SPACE"], default="DOUBLE-SPACE")
 
 
 def add_encoding_argument(parser: ArgumentParser, variable: str, help_str: str) -> None:
@@ -157,6 +138,7 @@ def parse_empty_or_none_or_one_char(value: str) -> str:
   if len(value) <= 1:
     return value
   raise ArgumentTypeError("Value can not have more than one character!")
+
 
 def parse_non_empty_or_whitespace(value: str) -> str:
   value = parse_required(value)

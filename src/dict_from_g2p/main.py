@@ -17,19 +17,20 @@ def get_app_try_add_vocabulary_from_pronunciations_parser(parser: ArgumentParser
   # todo support multiple files
   parser.add_argument("vocabulary", metavar='vocabulary', type=parse_existing_file,
                       help="file containing the vocabulary (words separated by line)")
+  add_encoding_argument(parser, "--vocabulary-encoding", "encoding of vocabulary")
   parser.add_argument("dictionary", metavar='dictionary', type=parse_path,
                       help="path to output created dictionary")
   parser.add_argument("--weight", type=parse_positive_float,
-                      help="weight to assign for each annotation", default=1.0)
+                      help="weight to assign for each pronunciation", default=1.0)
   parser.add_argument("--trim", type=parse_non_empty_or_whitespace, metavar='SYMBOL', nargs='*',
-                      help="trim these symbols from the start and end of a word before looking it up in the reference pronunciation dictionary", action=ConvertToOrderedSetAction, default=DEFAULT_PUNCTUATION)
+                      help="trim these symbols from the start and end of a word before lookup", action=ConvertToOrderedSetAction, default=DEFAULT_PUNCTUATION)
   parser.add_argument("--split-on-hyphen", action="store_true",
                       help="split words on hyphen symbol before lookup")
-  add_encoding_argument(parser, "--vocabulary-encoding", "encoding of vocabulary")
   add_serialization_group(parser)
-  add_n_jobs_argument(parser)
-  add_chunksize_argument(parser)
-  add_maxtaskperchild_argument(parser)
+  mp_group = parser.add_argument_group("multiprocessing arguments")
+  add_n_jobs_argument(mp_group)
+  add_chunksize_argument(mp_group)
+  add_maxtaskperchild_argument(mp_group)
   return get_pronunciations_files
 
 
@@ -121,13 +122,15 @@ def process_get_pronunciation(word_i: int, weight: float, options: Options) -> T
   )
 
   pronunciations = get_pronunciations_from_word(word, lookup_method, options)
-
+  #logger = getLogger(__name__)
+  # logger.debug(pronunciations)
   return word_i, pronunciations
 
 
 def lookup_in_model(word: Word, weight: float) -> Pronunciations:
   global process_model
   result = process_model.predict(word)
+  assert isinstance(result, tuple)
   result = OrderedDict((
     (result, weight),
   ))

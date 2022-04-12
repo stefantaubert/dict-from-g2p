@@ -1,7 +1,7 @@
 #!/bin/bash
 
-prog_name="dict-from-dict-cli"
-cli_path=src/dict_from_dict/cli.py
+prog_name="dict-from-g2p-cli"
+cli_path=src/dict_from_g2p/cli.py
 
 mkdir -p ./dist
 
