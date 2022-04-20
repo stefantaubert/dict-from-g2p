@@ -2,14 +2,13 @@ import argparse
 import logging
 import sys
 from argparse import ArgumentParser
+from importlib.metadata import version
 from logging import getLogger
 from typing import Callable, Generator, List, Tuple
 
-import importlib_metadata
-
 from dict_from_g2pE.main import get_app_try_add_vocabulary_from_pronunciations_parser
 
-__version__ = importlib_metadata.version("dict-from-g2pE")
+__version__ = version("dict-from-g2pE")
 
 INVOKE_HANDLER_VAR = "invoke_handler"
 
