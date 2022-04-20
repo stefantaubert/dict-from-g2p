@@ -41,7 +41,7 @@ def add_serialization_group(parser: ArgumentParser) -> None:
   group.add_argument("-ps", "--parts-sep", type=parse_non_empty,
                      help="symbol to separate word/weight/pronunciation in a line", choices=["TAB", "SPACE", "DOUBLE-SPACE"], default="DOUBLE-SPACE")
   # can be removed but in case word number is also on one word like word(1) then it will be required again, therefore no removal
-  #group.add_argument("-in", "--include-numbers", action="store_true", help="include word numbers")
+  group.add_argument("-in", "--include-numbers", action="store_true", help="include word numbers")
   group.add_argument("-iw", "--include-weights", action="store_true",
                      help="include weights")
 

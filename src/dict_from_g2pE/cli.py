@@ -1,12 +1,15 @@
-import sys
 import argparse
 import logging
+import sys
 from argparse import ArgumentParser
 from logging import getLogger
 from typing import Callable, Generator, List, Tuple
-from dict_from_g2p.main import get_app_try_add_vocabulary_from_pronunciations_parser
 
-__version__ = "0.0.1"
+import importlib_metadata
+
+from dict_from_g2pE.main import get_app_try_add_vocabulary_from_pronunciations_parser
+
+__version__ = importlib_metadata.version("dict-from-g2pE")
 
 INVOKE_HANDLER_VAR = "invoke_handler"
 
@@ -68,6 +71,10 @@ def parse_args(args: List[str]):
     parser.print_help()
 
 
-if __name__ == "__main__":
+def run():
   arguments = sys.argv[1:]
   parse_args(arguments)
+
+
+if __name__ == "__main__":
+  run()

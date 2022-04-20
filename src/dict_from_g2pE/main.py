@@ -1,20 +1,28 @@
-from g2p_en import G2p
-from collections import OrderedDict
 from argparse import ArgumentParser, Namespace
-from logging import getLogger
-from tqdm import tqdm
+from collections import OrderedDict
 from functools import partial
+from logging import getLogger
 from multiprocessing.pool import Pool
 from typing import Dict, Optional, Tuple
-from pronunciation_dictionary import PronunciationDict, Word, Pronunciations, save_dict_to_file, SerializationOptions
-from word_to_pronunciation import get_pronunciations_from_word, Options
+
+from g2p_en import G2p
 from ordered_set import OrderedSet
-from dict_from_g2p.argparse_helper import ConvertToOrderedSetAction, DEFAULT_PUNCTUATION, add_chunksize_argument, add_encoding_argument, add_maxtaskperchild_argument, add_n_jobs_argument, add_serialization_group, parse_existing_file, parse_non_empty_or_whitespace, parse_path, parse_positive_float
+from pronunciation_dictionary import (PronunciationDict, Pronunciations, SerializationOptions, Word,
+                                      save_dict)
+from tqdm import tqdm
+from word_to_pronunciation import Options, get_pronunciations_from_word
+
+from dict_from_g2pE.argparse_helper import (DEFAULT_PUNCTUATION, ConvertToOrderedSetAction,
+                                            add_chunksize_argument, add_encoding_argument,
+                                            add_maxtaskperchild_argument, add_n_jobs_argument,
+                                            add_serialization_group, parse_existing_file,
+                                            parse_non_empty_or_whitespace, parse_path,
+                                            parse_positive_float)
 
 
 def get_app_try_add_vocabulary_from_pronunciations_parser(parser: ArgumentParser):
   parser.description = "Transcribe vocabulary using g2p."
-  # todo support multiple files
+  # TODO support multiple files
   parser.add_argument("vocabulary", metavar='vocabulary', type=parse_existing_file,
                       help="file containing the vocabulary (words separated by line)")
   add_encoding_argument(parser, "--vocabulary-encoding", "encoding of vocabulary")
@@ -54,7 +62,7 @@ def get_pronunciations_files(ns: Namespace) -> bool:
   s_options = SerializationOptions(ns.parts_sep, ns.include_numbers, ns.include_weights)
 
   try:
-    save_dict_to_file(dictionary_instance, ns.dictionary, ns.serialization_encoding, s_options)
+    save_dict(dictionary_instance, ns.dictionary, ns.serialization_encoding, s_options)
   except Exception as ex:
     logger.error("Dictionary couldn't be written.")
     logger.debug(ex)
@@ -112,12 +120,14 @@ def __init_pool_prepare_cache_mp(words: OrderedSet[Word], model: G2p) -> None:
 
 def process_get_pronunciation(word_i: int, weight: float, options: Options) -> Tuple[int, Pronunciations]:
   global process_unique_words
+  global process_model
   assert 0 <= word_i < len(process_unique_words)
   word = process_unique_words[word_i]
 
   # TODO support all entries; also create all combinations with hyphen then
   lookup_method = partial(
     lookup_in_model,
+    model=process_model,
     weight=weight,
   )
 
@@ -127,10 +137,12 @@ def process_get_pronunciation(word_i: int, weight: float, options: Options) -> T
   return word_i, pronunciations
 
 
-def lookup_in_model(word: Word, weight: float) -> Pronunciations:
-  global process_model
-  result = process_model.predict(word)
-  assert isinstance(result, tuple)
+def lookup_in_model(word: Word, model: G2p, weight: float) -> Pronunciations:
+  assert len(word) > 0
+  # lower() because G2p seems to predict only lower-case words correctly
+  word = word.lower()
+  result = model.predict(word)
+  result = tuple(result)
   result = OrderedDict((
     (result, weight),
   ))

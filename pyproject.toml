@@ -1,17 +1,97 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = [
+  "setuptools >= 40.9.0",
+  "wheel",
+]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "dict-from-g2pE"
+version = "0.0.1"
+description = "CLI to create a pronunciation dictionary by predicting English ARPAbet phonemes using seq2seq model from g2pE and the possibility of ignoring punctuation and splitting on hyphens before prediction."
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+  {email = "stefan.taubert@posteo.me"},
+  {name = "Stefan Taubert"}
+]
+maintainers = [
+  {email = "stefan.taubert@posteo.me"},
+  {name = "Stefan Taubert"}
+]
+keywords = [
+  "ARPAbet",
+  "Pronunciation",
+  "Dictionary",
+  "g2pE",
+  "Language",
+  "Linguistics"
+]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Operating System :: OS Independent",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX",
+  "Operating System :: POSIX :: BSD",
+  "Operating System :: POSIX :: Linux",
+  "Operating System :: Unix",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+  "pronunciation-dictionary >= 0.0.3",
+  "ordered-set >= 4.1.0",
+  "word-to-pronunciation >= 0.0.1",
+  "g2p-en >= 2.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/stefantaubert/dict-from-g2p"
+Issues = "https://github.com/stefantaubert/dict-from-g2p/issues"
+
+[project.scripts]
+dict-from-g2pE-cli = "dict_from_g2pE.cli:run"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = [
+  "dict_from_g2pE",
+]
+exclude = [
+  "dict_from_g2pE_tests",
+  "dict_from_g2pE_debug"
+]
+namespaces = true
 
 [tool.pytest.ini_options]
 log_cli = true
 log_level = "DEBUG"
 testpaths = [
-  "src/dict_from_g2p_tests",
+  "src/dict_from_g2pE_tests",
 ]
-# slows down debugging
-#addopts=-n8
 
 [tool.autopep8]
 indent-size = 2
 ignore = ["E121"]
 max_line_length = 100
+
+[tool.isort]
+line_length = 100
+indent = 2
+known_first_party = [
+  "dict_from_g2pE",
+]
+known_third_party = [
+  "pronunciation_dictionary",
+  "ordered_set",
+  "word_to_pronunciation",
+  "g2p_en"
+]

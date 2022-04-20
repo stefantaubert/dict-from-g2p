@@ -132,3 +132,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 src/playground.py
+deploy-PyPI.sh
+deploy.sh
