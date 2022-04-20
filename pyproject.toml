@@ -58,7 +58,7 @@ Homepage = "https://github.com/stefantaubert/dict-from-g2p"
 Issues = "https://github.com/stefantaubert/dict-from-g2p/issues"
 
 [project.scripts]
-dict-from-g2pE-cli = "dict_from_g2pE.cli:run"
+dict-from-g2pE-cli = "dict_from_g2pE.cli:run_prod"
 
 [tool.setuptools.packages.find]
 where = ["src"]
