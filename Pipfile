@@ -13,7 +13,7 @@ rope = "*"
 pytest = "*"
 
 [packages]
-pronunciation-dictionary = ">=0.0.3"
+pronunciation-dictionary = ">=0.0.4"
 word-to-pronunciation = ">=0.0.1"
 ordered-set = ">=4.1.0"
 g2p-en = ">=2.1.0"
