@@ -1,1 +1,1 @@
-#
+from dict_from_g2pE.core import transcribe_with_g2pE
