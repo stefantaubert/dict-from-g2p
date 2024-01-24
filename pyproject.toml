@@ -1,24 +1,14 @@
-[build-system]
-requires = [
-  "setuptools >= 40.9.0",
-  "wheel",
-]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "dict-from-g2pE"
-version = "0.0.1"
+version = "0.0.2"
 description = "CLI to create a pronunciation dictionary by predicting English ARPAbet phonemes using seq2seq model from g2pE and the possibility of ignoring punctuation and splitting on hyphens before prediction."
 readme = "README.md"
-requires-python = ">=3.6"
-license = {text = "MIT"}
-authors = [
-  {email = "stefan.taubert@posteo.me"},
-  {name = "Stefan Taubert"}
-]
+requires-python = ">=3.8, <3.13"
+license = { text = "MIT" }
+authors = [{ email = "pypi@stefantaubert.com" }, { name = "Stefan Taubert" }]
 maintainers = [
-  {email = "stefan.taubert@posteo.me"},
-  {name = "Stefan Taubert"}
+  { email = "pypi@stefantaubert.com" },
+  { name = "Stefan Taubert" },
 ]
 keywords = [
   "ARPAbet",
@@ -26,7 +16,7 @@ keywords = [
   "Dictionary",
   "g2pE",
   "Language",
-  "Linguistics"
+  "Linguistics",
 ]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
@@ -39,15 +29,15 @@ classifiers = [
   "Operating System :: Microsoft :: Windows",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.6",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "License :: OSI Approved :: MIT License",
 ]
 dependencies = [
-  "pronunciation-dictionary >= 0.0.3",
+  "pronunciation-dictionary >= 0.0.6",
   "ordered-set >= 4.1.0",
   "word-to-pronunciation >= 0.0.1",
   "g2p-en >= 2.1.0",
@@ -62,21 +52,14 @@ dict-from-g2pE-cli = "dict_from_g2pE.cli:run_prod"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = [
-  "dict_from_g2pE",
-]
-exclude = [
-  "dict_from_g2pE_tests",
-  "dict_from_g2pE_debug"
-]
+include = ["dict_from_g2pE", "dict_from_g2pE.*"]
+exclude = ["dict_from_g2pE_tests", "dict_from_g2pE_debug"]
 namespaces = true
 
 [tool.pytest.ini_options]
 log_cli = true
 log_level = "DEBUG"
-testpaths = [
-  "src/dict_from_g2pE_tests",
-]
+testpaths = ["src/dict_from_g2pE_tests"]
 
 [tool.autopep8]
 indent-size = 2
@@ -86,12 +69,42 @@ max_line_length = 100
 [tool.isort]
 line_length = 100
 indent = 2
-known_first_party = [
-  "dict_from_g2pE",
-]
+known_first_party = ["dict_from_g2pE"]
 known_third_party = [
   "pronunciation_dictionary",
   "ordered_set",
   "word_to_pronunciation",
-  "g2p_en"
+  "g2p_en",
 ]
+
+[tool.pyright]
+root = ["src"]
+include = ["src"]
+pythonPlatform = "All"
+typeCheckingMode = "off"
+stubPath = ""
+exclude = [
+  "**/node_modules",
+  "**/__pycache__",
+  ".git",
+  "**/*.egg-info",
+  "**/*_debug",
+]
+useLibraryCodeForTypes = true
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py{38,39,310,311,312}
+isolated_build = True
+
+[testenv]
+deps = 
+  pytest
+commands = 
+  pytest
+"""
+
+[build-system]
+requires = ["setuptools >= 40.9.0", "wheel"]
+build-backend = "setuptools.build_meta"

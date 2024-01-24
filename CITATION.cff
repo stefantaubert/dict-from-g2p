@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: dict-from-g2pE
+abstract: CLI to create a pronunciation dictionary by predicting English ARPAbet phonemes using seq2seq model from g2pE and the possibility of ignoring punctuation and splitting on hyphens before prediction.
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - email: github@stefantaubert.com
+    given-names: Stefan
+    family-names: Taubert
+    affiliation: Chemnitz University of Technology
+    orcid: 'https://orcid.org/0000-0002-4932-2874'
+    website: 'https://stefantaubert.com/'
+version: 0.0.2
+date-released: 2024-01-24
+license: MIT
+url: https://github.com/stefantaubert/dict-from-g2p
+doi: 10.5281/zenodo.10561178

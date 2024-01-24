@@ -10,7 +10,9 @@ from tqdm import tqdm
 from word_to_pronunciation import Options, get_pronunciations_from_word
 
 
-def transcribe_with_g2pE(vocabulary: OrderedSet[Word], weight: float, trim: Set[str], split_on_hyphen: bool, n_jobs: int, maxtasksperchild: Optional[int], chunksize: int, silent: bool = False):
+def transcribe_with_g2pE(vocabulary: OrderedSet[Word], weight: float = 1.0, trim: Optional[Set[str]] = None, split_on_hyphen: bool = True, n_jobs: int = 4, maxtasksperchild: Optional[int] = None, chunksize: int = 100_000, silent: bool = False):
+  if trim is None:
+    trim = set()
   trim_symbols = ''.join(trim)
   options = Options(trim_symbols, split_on_hyphen, False, False, 1.0)
   dictionary_instance = get_pronunciations(

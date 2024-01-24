@@ -11,12 +11,15 @@ pycodestyle = "*"
 isort = "*"
 rope = "*"
 pytest = "*"
+autoflake = "*"
+twine = "*"
+build = "*"
 
 [packages]
-pronunciation-dictionary = ">=0.0.4"
+pronunciation-dictionary = ">=0.0.6"
 word-to-pronunciation = ">=0.0.1"
 ordered-set = ">=4.1.0"
 g2p-en = ">=2.1.0"
 
 [requires]
-python_version = "3.8"
+python_version = "3.11"
