@@ -14,12 +14,16 @@ pytest = "*"
 autoflake = "*"
 twine = "*"
 build = "*"
+mypy = "*"
+pandas-stubs = "*"
+types-tqdm = "*"
 
 [packages]
 pronunciation-dictionary = ">=0.0.6"
 word-to-pronunciation = ">=0.0.1"
 ordered-set = ">=4.1.0"
 g2p-en = ">=2.1.0"
+nltk = ">=3.2.4"
 
 [requires]
 python_version = "3.11"

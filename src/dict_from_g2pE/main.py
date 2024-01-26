@@ -47,7 +47,9 @@ def get_pronunciations_files(ns: Namespace) -> bool:
 
   vocabulary_words = OrderedSet(vocabulary_content.splitlines())
   dictionary_instance = transcribe_with_g2pE(
-    vocabulary_words, ns.weight, ns.trim, ns.split_on_hyphen, ns.n_jobs, ns.maxtasksperchild, ns.chunksize, silent=False)
+    vocabulary_words,
+    weight=ns.weight, trim=ns.trim, split_on_hyphen=ns.split_on_hyphen, n_jobs=ns.n_jobs, maxtasksperchild=ns.maxtasksperchild, chunksize=ns.chunksize, silent=False
+  )
 
   s_options = SerializationOptions(ns.parts_sep, ns.include_numbers, ns.include_weights)
 
